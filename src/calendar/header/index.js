@@ -26,7 +26,7 @@ class CalendarHeader extends Component {
   };
 
   static defaultProps = {
-    monthFormat: 'MMMM yyyy'
+    monthFormat: 'MMM yyyy'
   };
 
   constructor(props) {
@@ -144,7 +144,7 @@ class CalendarHeader extends Component {
                 numberOfLines={1} 
                 importantForAccessibility='no'
               >
-                {day}
+                {day.substring(0, 1)}
               </Text>
             ))}
           </View>
