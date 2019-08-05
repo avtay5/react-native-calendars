@@ -17,6 +17,7 @@ class Day extends Component {
     marking: PropTypes.any,
     onPress: PropTypes.func,
     date: PropTypes.object,
+    multiText: PropTypes.any
   };
 
   constructor(props) {
@@ -24,7 +25,7 @@ class Day extends Component {
     this.style = styleConstructor(props.theme);
     this.onDayPress = this.onDayPress.bind(this);
   }
-
+  
   onDayPress() {
     this.props.onPress(this.props.date);
   }
@@ -69,12 +70,84 @@ class Day extends Component {
     return;
   }
 
+  renderPeriodsText = (marking) => {
+    const baseDotStyle = [this.style.dot, this.style.visibleDot];
+    if (
+      marking.periods &&
+      Array.isArray(marking.periods) &&
+      marking.periods.length > 0
+    ) {
+      // Filter out dots so that we we process only those items which have key and color property
+      const validPeriods = marking.periods.filter(d => d && d.color);
+      return validPeriods.map((period, index) => {
+        const style = [
+          ...baseDotStyle,
+          {
+            //Adrian
+            height: 17,
+            width: '100%',
+            paddingTop: 1,
+            paddingBottom: 1,
+            justifyContent: 'center',
+            backgroundColor: period.color,
+            overflow: 'visible',
+          },
+        ];
+        if (period.startingDay) {
+          style.push({
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
+			      paddingLeft: 5,
+          });
+        }
+        if (period.endingDay) {
+          style.push({
+            borderTopRightRadius: 10,
+            borderBottomRightRadius: 10,
+			      paddingRight: 10,
+          });
+        }
+        if (period.startingDay) {
+          return ( 
+            <View key={index} style={[style]} >
+              <Text 
+                numberOfLines={1}
+                style={{fontSize:9, color:'white', fontWeight:'bold', fontFamily:'Quicksand-Bold', overflow:'visible'}}>{period.title}</Text>
+            </View> 
+          );
+        }
+        else if (period.startingDay && period.endingDay){
+          return ( 
+            <View key={index} style={[style]} >
+              <Text 
+                numberOfLines={1}
+                style={{fontSize:9, color:'white', fontWeight:'bold', fontFamily:'Quicksand-Bold', overflow:'visible', }}>{period.title}</Text>
+            </View> 
+          );
+        }
+        else{
+          return (
+            <View key={index} style={style}>
+            </View> 
+          );
+        }
+      });
+    }
+    return;
+  }
+
   render() {
     const containerStyle = [this.style.base];
     const textStyle = [this.style.text];
-
     const marking = this.props.marking || {};
-    const periods = this.renderPeriods(marking);
+    let periods = null;
+
+    if(this.props.multiText){
+      periods = this.renderPeriodsText(marking);
+    }
+    else{
+      periods = this.renderPeriods(marking);
+    }
 
     if (marking.selected) {
       containerStyle.push(this.style.selected);
@@ -92,7 +165,9 @@ class Day extends Component {
     return (
       <View
         style={{
-          alignSelf: 'stretch'
+          alignSelf: 'stretch',
+          alignItems: 'center',
+          overflow: 'visible',
         }}>
         <TouchableOpacity testID={this.props.testID} style={containerStyle} onPress={this.onDayPress}>
           <Text allowFontScaling={false} style={textStyle}>
@@ -102,6 +177,7 @@ class Day extends Component {
         <View
           style={{
             alignSelf: 'stretch',
+            overflow: 'visible',
           }}>
           {periods}
         </View>
