@@ -142,8 +142,10 @@ class Day extends Component {
     const marking = this.props.marking || {};
     let periods = null;
 
-    if(this.props.multiText){
-      periods = this.renderPeriodsText(marking);
+    if(marking.periods){
+      if(marking.periods[0].title || marking.periods[0].empty){
+        periods = this.renderPeriodsText(marking);
+      }
     }
     else{
       periods = this.renderPeriods(marking);
