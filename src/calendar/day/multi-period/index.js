@@ -104,7 +104,7 @@ class Day extends Component {
           style.push({
             borderTopRightRadius: 10,
             borderBottomRightRadius: 10,
-			      paddingRight: 10,
+			      paddingRight: 2,
           });
         }
         if (period.startingDay) {
