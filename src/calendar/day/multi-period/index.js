@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import {shouldUpdate} from '../../../component-updater';
+import { shouldUpdate } from '../../../component-updater';
 
 import styleConstructor from './style';
 
 class Day extends Component {
   static displayName = 'IGNORE';
-  
+
   static propTypes = {
     // TODO: disabled props should be removed
     state: PropTypes.oneOf(['disabled', 'today', '']),
@@ -25,7 +25,7 @@ class Day extends Component {
     this.style = styleConstructor(props.theme);
     this.onDayPress = this.onDayPress.bind(this);
   }
-  
+
   onDayPress() {
     this.props.onPress(this.props.date);
   }
@@ -97,38 +97,38 @@ class Day extends Component {
           style.push({
             borderTopLeftRadius: 10,
             borderBottomLeftRadius: 10,
-			      paddingLeft: 5,
+            paddingLeft: 5,
           });
         }
         if (period.endingDay) {
           style.push({
             borderTopRightRadius: 10,
             borderBottomRightRadius: 10,
-			      paddingRight: 2,
+            paddingRight: 2,
           });
         }
         if (period.startingDay) {
-          return ( 
+          return (
             <View key={index} style={[style]} >
-              <Text 
+              <Text
                 numberOfLines={1}
-                style={{fontSize:9, color:'white', fontWeight:'bold', fontFamily:'Quicksand-Bold', overflow:'visible'}}>{period.title}</Text>
-            </View> 
+                style={{ fontSize: 9, color: 'white', fontWeight: 'bold', fontFamily: 'Quicksand-Bold', overflow: 'visible' }}>{period.title}</Text>
+            </View>
           );
         }
-        else if (period.startingDay && period.endingDay){
-          return ( 
+        else if (period.startingDay && period.endingDay) {
+          return (
             <View key={index} style={[style]} >
-              <Text 
+              <Text
                 numberOfLines={1}
-                style={{fontSize:9, color:'white', fontWeight:'bold', fontFamily:'Quicksand-Bold', overflow:'visible', }}>{period.title}</Text>
-            </View> 
+                style={{ fontSize: 9, color: 'white', fontWeight: 'bold', fontFamily: 'Quicksand-Bold', overflow: 'visible', }}>{period.title}</Text>
+            </View>
           );
         }
-        else{
+        else {
           return (
             <View key={index} style={style}>
-            </View> 
+            </View>
           );
         }
       });
@@ -142,12 +142,12 @@ class Day extends Component {
     const marking = this.props.marking || {};
     let periods = null;
 
-    if(marking.periods){
-      if(marking.periods[0].title || marking.periods[0].empty){
+    if (marking.periods) {
+      if (marking.periods[0].title || marking.periods[0].empty) {
         periods = this.renderPeriodsText(marking);
       }
     }
-    else{
+    else {
       periods = this.renderPeriods(marking);
     }
 
@@ -170,6 +170,7 @@ class Day extends Component {
           alignSelf: 'stretch',
           alignItems: 'center',
           overflow: 'visible',
+          marginHorizontal: -1
         }}>
         <TouchableOpacity testID={this.props.testID} style={containerStyle} onPress={this.onDayPress}>
           <Text allowFontScaling={false} style={textStyle}>
