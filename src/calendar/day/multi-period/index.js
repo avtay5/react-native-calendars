@@ -170,6 +170,7 @@ class Day extends Component {
           alignSelf: 'stretch',
           alignItems: 'center',
           overflow: 'visible',
+          marginHorizontal: -1,
         }}>
         <TouchableOpacity testID={this.props.testID} style={containerStyle} onPress={this.onDayPress}>
           <Text allowFontScaling={false} style={textStyle}>
